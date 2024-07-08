@@ -90,20 +90,3 @@ jobs:
         name: dist-${{ matrix.only }}
         path: wheelhouse/*.whl
  
-  upload_pypi:
-    needs: [build_wheels]
-    runs-on: ubuntu-latest
-    # upload to PyPI on master
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    permissions:
-      id-token: write  # pypa/gh-action-pypi-publish
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: dist/
-          pattern: dist-*
-          merge-multiple: true
-
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          skip_existing: true
